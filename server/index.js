@@ -1,11 +1,15 @@
 // server/index.js
 import express from "express";
+import cors from "cors";              // 1. Import the cors package
 import { loginHandler } from "./login.js";
 import { registerHandler } from "./register.js";
 import { translateText } from "./translate.js";
 import db from "./db.js";
 
 const app = express();
+
+// 2. Use cors() before defining your routes
+app.use(cors());
 app.use(express.json());
 
 // Registration endpoint

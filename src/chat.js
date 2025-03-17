@@ -1,35 +1,66 @@
-// src/Chat.js
+// src/chat.js
 import React, { useEffect, useState } from 'react';
-import './Chat.css';
+import './chat.css';
 
 function Chat() {
   const [ws, setWs] = useState(null);
   const [message, setMessage] = useState('');
   const [chatLog, setChatLog] = useState([]);
-  const [targetLang, setTargetLang] = useState('es'); // e.g., Spanish
+  // Set the default language based on the user's browser settings.
+  const defaultLang = navigator.language ? navigator.language.split('-')[0] : 'en';
+  const [targetLang, setTargetLang] = useState(defaultLang);
   const [translatedMessages, setTranslatedMessages] = useState({});
 
   useEffect(() => {
-    // Connect to the WebSocket server
-    const socket = new WebSocket('ws://localhost:8080');
-    setWs(socket);
+    let socket;
+    let reconnectInterval;
 
-    socket.onmessage = (event) => {
-      setChatLog(prev => [...prev, event.data]);
+    // Function to connect WebSocket and handle events
+    const connect = () => {
+      console.log("Attempting to connect WebSocket...");
+      socket = new WebSocket('ws://localhost:8080');
+      setWs(socket);
+
+      socket.onopen = () => {
+        console.log("WebSocket connection opened");
+        clearInterval(reconnectInterval);
+      };
+
+      socket.onmessage = (event) => {
+        console.log("Message received:", event.data);
+        setChatLog((prev) => [...prev, event.data]);
+      };
+
+      socket.onclose = (event) => {
+        console.log("WebSocket connection closed", event);
+        // Attempt to reconnect every 5 seconds
+        reconnectInterval = setInterval(connect, 5000);
+      };
+
+      socket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+        socket.close();
+      };
     };
 
-    socket.onclose = () => {
-      console.log("WebSocket connection closed");
-    };
+    connect();
 
-    return () => socket.close();
+    // Cleanup on unmount
+    return () => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.close();
+      }
+      clearInterval(reconnectInterval);
+    };
   }, []);
 
   const sendMessage = () => {
-    if (ws && message.trim() !== '') {
+    if (ws && ws.readyState === WebSocket.OPEN) {
       ws.send(message);
-      setChatLog(prev => [...prev, message]);
+      setChatLog((prev) => [...prev, message]);
       setMessage('');
+    } else {
+      console.error("WebSocket is not open. Current state:", ws ? ws.readyState : "No connection");
     }
   };
 
@@ -41,7 +72,7 @@ function Chat() {
         body: JSON.stringify({ text: msg, targetLang })
       });
       const data = await response.json();
-      setTranslatedMessages(prev => ({ ...prev, [index]: data.translatedText }));
+      setTranslatedMessages((prev) => ({ ...prev, [index]: data.translatedText }));
     } catch (error) {
       console.error("Translation failed:", error);
     }
@@ -49,19 +80,21 @@ function Chat() {
 
   return (
     <div className="chat-container">
-      <h2>Chat</h2>
+      <h2>Chat (Translating to: {targetLang.toUpperCase()})</h2>
       <div className="chat-log">
         {chatLog.map((msg, index) => (
           <div key={index} className="chat-message">
             <span>{msg}</span>
             <button onClick={() => handleTranslate(msg, index)}>Translate</button>
-            {translatedMessages[index] && <p className="translated">{translatedMessages[index]}</p>}
+            {translatedMessages[index] && (
+              <p className="translated">{translatedMessages[index]}</p>
+            )}
           </div>
         ))}
       </div>
       <div className="chat-input">
-        <input 
-          type="text" 
+        <input
+          type="text"
           placeholder="Type your message..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}

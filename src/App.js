@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import Login from './login'; // Ensure the filename matches (here: login.js)
-import Leaderboard from './Leaderboard'; // Create this file for your leaderboard page
+import Login from './login'; // Make sure your login component file is named "login.js"
+import Leaderboard from './Leaderboard'; // Your leaderboard component
+import Chat from './chat'; // Your chat component
 import './App.css';
 
 function App() {
@@ -45,6 +46,8 @@ function App() {
     console.log(`${buttonType} button clicked`);
     if (buttonType === 'leaderboard') {
       navigate('/leaderboard');
+    } else if (buttonType === 'chat') {
+      navigate('/chat');
     } else {
       alert(`You clicked the ${buttonType} button!`);
     }
@@ -88,7 +91,7 @@ function App() {
 
             {/* Left Button Group (Bottom Left) */}
             <div className="left-button-group">
-              {/* New Naya button */}
+              {/* Naya button */}
               <a
                 href="https://naya.studio/login"
                 target="_blank"
@@ -142,6 +145,14 @@ function App() {
                 <span className="icon"></span>
                 Challenges
               </button>
+              {/* Chat button */}
+              <button
+                className="game-button chat"
+                onClick={() => handleClick('chat')}
+              >
+                <span className="icon"></span>
+                Chat
+              </button>
             </div>
 
             {/* Trophy Controls Panel (Bottom, for demo purposes) */}
@@ -153,6 +164,7 @@ function App() {
         }
       />
       <Route path="/leaderboard" element={<Leaderboard />} />
+      <Route path="/chat" element={<Chat />} />
     </Routes>
   );
 }
