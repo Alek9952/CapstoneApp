@@ -1,0 +1,191 @@
+/* ---------- Global Styles ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body,
+html,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Quicksand', sans-serif;
+  background: #f0f0f0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---------- Workshop/Studio Container ---------- */
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---------- Status Panel (Top Right) ---------- */
+.status-panel {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9em;
+  text-align: left;
+  z-index: 20;
+}
+
+.status-panel p {
+  margin: 4px 0;
+}
+
+.icon-small {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+/* ---------- Workshop Info Panel (Center) ---------- */
+.workshop-info {
+  position: absolute;
+  top: 10px; /* adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 20px 30px;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 15;
+}
+
+
+.workshop-info h1 {
+  margin: 0;
+  font-size: 2em;
+  color: #333;
+}
+
+/* ---------- Left Button Group (Bottom Left) ---------- */
+.left-button-group {
+  position: absolute;
+  bottom: 20px; /* Moved up slightly */
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 20;
+}
+
+/* ---------- Right Button Group (Bottom Right) ---------- */
+.right-button-group {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 20;
+}
+
+/* ---------- Common Styles for Game Buttons ---------- */
+.game-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px; /* Reduced margin to bring buttons closer to the edges */
+  width: clamp(120px, 15vw, 250px);
+  height: clamp(50px, 10vh, 100px);
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background-size: 200% 200%;
+  animation: gradientShift 5s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.game-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.game-button:active {
+  transform: scale(0.98);
+}
+
+/* ---------- Button Specific Styles ---------- */
+.naya {
+  background: linear-gradient(135deg, #007BFF, #00A0FF);
+}
+
+.tinker-cad {
+  background: linear-gradient(135deg, #9c27b0, #e040fb);
+}
+
+.leaderboard {
+  background: linear-gradient(135deg, #ff9800, #ffc107);
+}
+
+.learning-hub {
+  background: linear-gradient(135deg, #4caf50, #81c784);
+}
+
+.connect {
+  background: linear-gradient(135deg, #2196f3, #64b5f6);
+}
+
+.challenges {
+  background: linear-gradient(135deg, #e91e63, #f06292);
+}
+
+/* ---------- Trophy Controls Panel (Bottom, for Demo Purposes) ---------- */
+.trophy-controls {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255,255,255,0.9);
+  padding: 6px 10px;
+  border-radius: 8px;
+  z-index: 20;
+}
+
+.trophy-controls button {
+  margin: 0 5px;
+  padding: 4px 8px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.trophy-controls button:hover {
+  background-color: #388e3c;
+}
+
+/* ---------- Responsive Adjustments ---------- */
+@media screen and (max-width: 768px) {
+  .left-button-group,
+  .right-button-group {
+    flex-direction: column;
+  }
+}

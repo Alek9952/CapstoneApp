@@ -1,0 +1,39 @@
+.leaderboard-page {
+    padding: 20px;
+    font-family: 'Quicksand', sans-serif;
+    background: #f0f0f0;
+    min-height: 100vh;
+  }
+  
+  .leaderboard-page h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .leaderboard-section {
+    margin: 20px auto;
+    max-width: 600px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .leaderboard-section h2 {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  table th,
+  table td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
