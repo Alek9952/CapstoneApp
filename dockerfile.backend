@@ -1,0 +1,27 @@
+# Use an official Ubuntu base image
+FROM ubuntu:22.04
+
+# Update and install required packages (curl, git, unzip)
+RUN apt update && apt install -y curl git unzip
+
+# Install Bun using the official install script
+RUN curl -fsSL https://bun.sh/install | bash
+
+# Set PATH to include Bun (the installer typically puts Bun in ~/.bun/bin)
+ENV PATH="/root/.bun/bin:${PATH}"
+
+# Set working directory for the backend
+WORKDIR /app
+
+# Copy the backend files and package.json
+COPY server/ ./server/
+COPY package.json .
+
+# Install dependencies using Bun
+RUN bun install
+
+# Expose the backend port
+EXPOSE 3001
+
+# Start the backend server
+CMD ["bun", "run", "server/index.js"]
